@@ -5,14 +5,11 @@ using TaskBoardApi.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()
-.AddJsonOptions(options =>
-{
+.AddJsonOptions(options => {
     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 });
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowAll", policy => {
         policy.AllowAnyOrigin()
         .AllowAnyMethod()
         .AllowAnyHeader();
@@ -26,14 +23,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
+using (var scope = app.Services.CreateScope()) {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
 
-if (app.Environment.IsDevelopment())
-{
+if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
 }

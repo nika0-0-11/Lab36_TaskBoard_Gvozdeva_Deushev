@@ -5,18 +5,15 @@ using TaskBoardApi.Data;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TasksController : ControllerBase
-{
+public class TasksController : ControllerBase {
     private readonly AppDbContext _db;
 
-    public TasksController(AppDbContext db)
-    {
+    public TasksController(AppDbContext db) {
         _db = db;
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<TaskItem>>> GetAll()
-    {
+    public async Task<ActionResult<List<TaskItem>>> GetAll() {
         var tasks = await _db.Tasks
             .OrderBy(t => t.CreatedAt)
             .ThenByDescending(t => t.CreatedAt)
@@ -26,12 +23,10 @@ public class TasksController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<TaskItem>> GetById(int id)
-    {
+    public async Task<ActionResult<TaskItem>> GetById(int id) {
         var task = await _db.Tasks.FindAsync(id);
 
-        if (task is null)
-        {
+        if (task is null) {
             return NotFound(new { message = $"Задача с id = {id} не найдена" });
         }
 
@@ -39,10 +34,8 @@ public class TasksController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<TaskItem>> Create([FromBody] TaskItem task)
-    {
-        if (string.IsNullOrWhiteSpace(task.Title))
-        {
+    public async Task<ActionResult<TaskItem>> Create([FromBody] TaskItem task) {
+        if (string.IsNullOrWhiteSpace(task.Title)) {
             return BadRequest(new { message = "Название задачи не может быть пустым" });
         }
 
@@ -53,7 +46,7 @@ public class TasksController : ControllerBase
 
         await _db.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetById), new { id = task.Id, task } );
+        return CreatedAtAction(nameof(GetById), new { id = task.Id, task });
     }
 
     [HttpPut("{id}")]
@@ -65,7 +58,7 @@ public class TasksController : ControllerBase
         }
 
         if (string.IsNullOrWhiteSpace(updated.Title)) {
-            return BadRequest(new { message = $"Название задачаи не может быть пустым"});
+            return BadRequest(new { message = $"Название задачаи не может быть пустым" });
         }
 
         task.Title = updated.Title;
@@ -73,9 +66,9 @@ public class TasksController : ControllerBase
         task.IsCompleted = updated.IsCompleted;
 
         await _db.SaveChangesAsync();
-        
+
         return Ok(task);
-    } 
+    }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id) {

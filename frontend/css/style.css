@@ -45,6 +45,7 @@ main {
     margin-bottom: 1.5rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
+
 .add-form h2 {
     font-size: 1rem;
     color: #4a5568;
@@ -56,6 +57,7 @@ main {
     flex-direction: column;
     gap: 0.6rem;
 }
+
 .form-col input,
 .form-col textarea {
     padding: 0.65rem 0.9rem;
@@ -151,6 +153,7 @@ main {
     flex-direction: column;
     gap: 0.6rem;
 }
+
 /* Карточка задачи */
 .task-item {
     background: white;
